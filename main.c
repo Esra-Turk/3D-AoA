@@ -23,8 +23,12 @@ void aOa-3D(anchor_tag, distance, x, y, z){
 int main( void )
 {
 	aOa-3D(1, distance1, anchor1_x, anchor1_y, anchor1_z); //Anchor_1_Call
+	printf("Anchor_1 sended a loc. packet");
 	aOa-3D(2, distance2, anchor2_x, anchor2_y, anchor2_z); //Anchor_2_Call
+	printf("Anchor_2 sended a loc. packet");
 	aOa-3D(3, distance3, anchor3_x, anchor3_y, anchor3_z); //Anchor_3_Call
+	printf("Anchor_3 sended a loc. packet");
 	aOa-3D(4, distance4, anchor4_x, anchor4_y, anchor4_z); //Anchor_4_Call
+	printf("Anchor_4 sended a loc. packet");
 	return 0;
 }
