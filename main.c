@@ -12,7 +12,7 @@ struct AnchorParams {
 
 struct AnchorParams anchorParams[4];
 
-// Fonksiyonun kaç kez çağrıldığını sayar
+// Fonksiyonun kac kez cagrildigini sayar
 int callCount = 0;
 
 void aOa3D(int anchor_tag, double distance, double x, double y, double z){ 
