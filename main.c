@@ -12,8 +12,17 @@ struct AnchorParams {
 
 struct AnchorParams anchorParams[4];
 
-// Fonksiyonun kac kez cagrildigini sayar
-int callCount = 0;
+int packetReceived[4] = {0}; // Her anchor için bir takipci.
+
+int allPacketsReceived() {
+    for (int i = 0; i < 4; i++) {
+        if (packetReceived[i] == 0) {
+            return 0; // En az bir paket alinmamis.
+        }
+    }
+    return 1; // Tüm paketler alinmis.
+}
+
 
 int checkTriangle(double a, double b, double c) {
     if (a > 0 && b > 0 && c > 0 && a + b > c && a + c > b && b + c > a)
@@ -30,10 +39,11 @@ void aOa3D(int anchor_tag, double distance, double x, double y, double z){
     anchorParams[anchor_tag - 1].x = x;
     anchorParams[anchor_tag - 1].y = y;
     anchorParams[anchor_tag - 1].z = z;
+	
+	packetReceived[anchor_tag - 1] = 1; // Paket alindi olarak isaretler
+	printf("Anchor_%d sended a loc. packet\n", anchor_tag);
 
-	callCount++;
-
-	if (callCount == 4) {
+	if (allPacketsReceived()) {
 		double distance1 = anchorParams[0].distance;
 		double distance2 = anchorParams[1].distance;
 		double distance3 = anchorParams[2].distance;
@@ -65,13 +75,9 @@ void aOa3D(int anchor_tag, double distance, double x, double y, double z){
 }
 int main( void )
 {
-	aOa3D(1, 9.0000, -10, 0, 0); //Anchor_1_Call
-	printf("Anchor_1 sended a loc. packet\n");
-	aOa3D(2, 5.0000, 10, 0, 0); //Anchor_2_Call
-	printf("Anchor_2 sended a loc. packet");
+	aOa3D(1, 19.0000, -10, 0, 0); //Anchor_1_Call
+	//aOa3D(2, 15.0000, 10, 0, 0); //Anchor_2_Call
 	aOa3D(3, 10.0000, 0, 0, 10); //Anchor_3_Call
-	printf("Anchor_3 sended a loc. packet");
-	aOa3D(4, 10.0000, 0, 0, 10); //Anchor_4_Call
-	printf("Anchor_4 sended a loc. packet");
+	//aOa3D(4, 11.0000, 0, 0, 10); //Anchor_4_Call
 	return 0;
 }
