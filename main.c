@@ -10,7 +10,7 @@ struct AnchorParams {
     double z;
 };
 
-struct AnchorParams anchorParams[2];
+struct AnchorParams anchorParams[4];
 
 // Fonksiyonun kaç kez çağrıldığını sayar
 int callCount = 0;
@@ -26,18 +26,20 @@ void aOa3D(int anchor_tag, double distance, double x, double y, double z){
 
 	callCount++;
 
-	if (callCount == 2) {
+	if (callCount == 4) {
 		double distance1 = anchorParams[0].distance;
 		double distance2 = anchorParams[1].distance;
+		double distance3 = anchorParams[2].distance;
+		double distance4 = anchorParams[3].distance;
 		
-		// r1 -> median length
+		// r1 -> 2D median length r2 -> 3D median length
 		double r1 = sqrt((2 * distance1 * distance1 + 2 * distance2 * distance2 - optimalDistance * optimalDistance) / 4);
+		double r2 = sqrt((2 * distance3 * distance3 + 2 * distance4 * distance4 - optimalDistance * optimalDistance) / 4);
+
+		double theta = acos((r1 * r1 + optimalDistance/2 * optimalDistance/2 - distance2 * distance2) / (2 * r1 * optimalDistance/2))* (180.0 / M_PI);
+		double sigma = acos((r2 * r2 + optimalDistance/2 * optimalDistance/2 - distance3 * distance3) / (2 * r2 * optimalDistance/2)) * (180.0 / M_PI);
 		
-		double theta = acos((r1 * r1 + optimalDistance/2 * optimalDistance/2 - distance2 * distance2) / (2 * r1 * optimalDistance/2));
-    	theta = theta * (180.0 / M_PI);
-		
-		printf("%f\n", r1);
-		printf("%f\n", theta);
+		printf("%f\n%f\n%f\n%f\n", r1,theta,r2,sigma);
         
     }
 
@@ -48,9 +50,9 @@ int main( void )
 	printf("Anchor_1 sended a loc. packet\n");
 	aOa3D(2, 13.0000, 10, 0, 0); //Anchor_2_Call
 	printf("Anchor_2 sended a loc. packet");
-	/*aOa-3D(3, distance3, anchor3_x, anchor3_y, anchor3_z); //Anchor_3_Call
+	aOa3D(3, 20, 0, 0, 10); //Anchor_3_Call
 	printf("Anchor_3 sended a loc. packet");
-	aOa-3D(4, distance4, anchor4_x, anchor4_y, anchor4_z); //Anchor_4_Call
-	printf("Anchor_4 sended a loc. packet");*/
+	aOa3D(4, 20, 0, 0, 10); //Anchor_4_Call
+	printf("Anchor_4 sended a loc. packet");
 	return 0;
 }
