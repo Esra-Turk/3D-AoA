@@ -33,6 +33,7 @@ int checkTriangle(double a, double b, double c) {
 
 void aOa3D(int anchor_tag, double distance, double x, double y, double z){ 
 	double optimalDistance = 20;
+	double theta, sigma;
 
 	anchorParams[anchor_tag - 1].tag = anchor_tag;
     anchorParams[anchor_tag - 1].distance = distance;
@@ -48,6 +49,8 @@ void aOa3D(int anchor_tag, double distance, double x, double y, double z){
 		double distance2 = anchorParams[1].distance;
 		double distance3 = anchorParams[2].distance;
 		double distance4 = anchorParams[3].distance;
+		double distance5 = anchorParams[4].distance;
+		double distance6 = anchorParams[5].distance;
 		
 		int isTriangle2D = checkTriangle(distance1, distance2, optimalDistance);
 		int isTriangle3D = checkTriangle(distance3, distance4, optimalDistance);
@@ -55,7 +58,13 @@ void aOa3D(int anchor_tag, double distance, double x, double y, double z){
 		if(isTriangle2D){
 			// r1 -> 2D median length
 			double r1 = sqrt((2 * distance1 * distance1 + 2 * distance2 * distance2 - optimalDistance * optimalDistance) / 4);
-			double theta = acos((r1 * r1 + optimalDistance/2 * optimalDistance/2 - distance2 * distance2) / (2 * r1 * optimalDistance/2))* (180.0 / M_PI);
+			
+			if(distance6 > distance5){
+				theta = acos((r1 * r1 + optimalDistance/2 * optimalDistance/2 - distance1 * distance1) / (2 * r1 * optimalDistance/2))* (180.0 / M_PI);
+			} else{
+				theta= 360 -acos((r1 * r1 + optimalDistance/2 * optimalDistance/2 - distance1 * distance1) / (2 * r1 * optimalDistance/2))* (180.0 / M_PI);
+			}
+			
 			printf("2D Triangle: r1 = %f, theta = %f\n", r1, theta);
 		} else {
 			printf("These lengths cannot form a triangle.\n");
@@ -64,7 +73,11 @@ void aOa3D(int anchor_tag, double distance, double x, double y, double z){
 		if(isTriangle3D) {
 			//r2 -> 3D median length
 			double r2 = sqrt((2 * distance3 * distance3 + 2 * distance4 * distance4 - optimalDistance * optimalDistance) / 4);
-			double sigma = acos((r2 * r2 + optimalDistance/2 * optimalDistance/2 - distance3 * distance3) / (2 * r2 * optimalDistance/2)) * (180.0 / M_PI);
+			if(distance4 > distance3){
+				sigma = acos((r2 * r2 + optimalDistance/2 * optimalDistance/2 - distance3 * distance3) / (2 * r2 * optimalDistance/2)) * (180.0 / M_PI);
+			} else{
+				sigma= 360 -sigma = acos((r2 * r2 + optimalDistance/2 * optimalDistance/2 - distance3 * distance3) / (2 * r2 * optimalDistance/2)) * (180.0 / M_PI);
+			}
 			printf("3D Triangle: r2 = %f, sigma = %f\n", r2, sigma);
 		} else {
 			printf("These lengths cannot form a triangle.\n");
